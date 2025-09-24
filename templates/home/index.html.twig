@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div style="text-align: center;">
+<div class="panel" >
+    <h1>Log In</h1>
+
+
+
+    <form method="post" action="{{ path('home') }}">
+        <label>Username:</label><br>
+        <input type="text" name="username"><br>
+
+        <label>Password:</label><br>
+        <input type="password" name="password"><br>
+
+        <input type="submit" name = "login" value="Log In"">
+    </form>
+
+    <p style="margin-top:10px">
+        Don’t have an account? <a href="{{ path('register') }}">Register</a>
+    </p>
+</div>
+{% endblock %}
