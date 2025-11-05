@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+<div class="container mx-auto px-4 mt-6">
+  <h1 class="text-4xl font-bold text-forest mb-8"> Admin Analytics</h1>
+
+  <div class="grid grid-cols-2 gap-6">
+    <a href="{{ path('app_product_index') }}" class="group block rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl hover:bg-green-700 bg-emerald-600 text-forest p-6 shadow-md">
+      <div class="flex items-center space-x-3 mb-2">
+        <img src="{{ asset('images/icon/gem1.ico') }}" alt="Gem Icon" class="w-6 h-6">
+        <h2 class="text-xl font-semibold transition group-hover:text-white">Total Gems</h2>
+      </div>
+      <p class="text-4xl font-extrabold animate-pulse transition group-hover:text-white">{{ gemCount }}</p>
+      <span class="underline text-sm mt-3 inline-block transition group-hover:text-white">Manage Gems</span>
+    </a>
+
+    <a href="{{ path('app_jewelries_index') }}" class="group block rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl hover:bg-green-700 bg-emerald-600 text-forest p-6 shadow-md">
+      <div class="flex items-center space-x-3 mb-2">
+        <img src="{{ asset('images/icon/jewelry (1).ico') }}" alt="Jewelry Icon" class="w-6 h-6">
+        <h2 class="text-xl font-semibold transition group-hover:text-white">Jewelries Listed</h2>
+      </div>
+      <p class="text-4xl font-extrabold animate-pulse transition group-hover:text-white">{{ jewelryCount }}</p>
+      <span class="underline text-sm mt-3 inline-block transition group-hover:text-white">Manage Jewelries</span>
+    </a>
+
+    <a href="{{ path('app_gembundles_index') }}" class="group block rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl hover:bg-green-700 bg-emerald-600 text-forest p-6 shadow-md">
+      <div class="flex items-center space-x-3 mb-2">
+        <img src="{{ asset('images/icon/bundle.ico') }}" alt="Bundle Icon" class="w-6 h-6">
+        <h2 class="text-xl font-semibold transition group-hover:text-white">Bundles Created</h2>
+      </div>
+      <p class="text-4xl font-extrabold animate-pulse transition group-hover:text-white">{{ bundleCount }}</p>
+      <span class="underline text-sm mt-3 inline-block transition group-hover:text-white">Manage Bundles</span>
+    </a>
+
+    <a href="{{ path('app_customjewelries_index') }}" class="group block rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl hover:bg-green-700 bg-emerald-600 text-forest p-6 shadow-md">
+      <div class="flex items-center space-x-3 mb-2">
+        <img src="{{ asset('images/icon/custom1.ico') }}" alt="Custom Jewelry Icon" class="w-6 h-6">
+        <h2 class="text-xl font-semibold transition group-hover:text-white">Custom Orders</h2>
+      </div>
+      <p class="text-4xl font-extrabold animate-pulse transition group-hover:text-white">{{ customCount }}</p>
+      <span class="underline text-sm mt-3 inline-block transition group-hover:text-white">View Custom Jewelries</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

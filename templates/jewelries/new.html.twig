@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create New Jewelry{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-50 py-20">
+  <div class="container mx-auto px-4">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Create New Jewelry</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+      {{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data' } }) }}
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-forest">
+        {{ form_row(form.name) }}
+        {{ form_row(form.gemtype) }}
+        {{ form_row(form.jewelrytype) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.stock) }}
+        {{ form_row(form.image) }}
+      </div>
+
+      <div class="mt-6 flex space-x-3">
+        <button type="submit" class="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          <img src="{{ asset('images/icon/create.ico') }}" alt="Create Icon" class="w-5 h-5 mr-2"> Create
+        </button>
+        <a href="{{ path('app_jewelries_index') }}" class="flex items-center px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+          <img src="{{ asset('images/icon/back.ico') }}" alt="Back Icon" class="w-5 h-5 mr-2"> Back to list
+        </a>
+      </div>
+
+      {{ form_end(form) }}
+    </div>
+  </div>
+</div>
+{% endblock %}

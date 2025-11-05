@@ -1,25 +1,16 @@
 <?php
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-class DashboardController extends AbstractController
+final class DashboardController extends AbstractController
 {
-    #[Route('/dashboard', name: 'dashboard')]
-    public function dashboard(SessionInterface $session): Response
+    #[Route('/dashboard/contoller', name: 'app_dashboard_contoller')]
+    public function index(): Response
     {
-        $user = $session->get('user');
-
-        if (!$user) {
-            // Not logged in -> go back to login
-            return $this->redirectToRoute('login');
-        }
-
-        return $this->render('dashboard/index.html.twig', [
-            'username' => $user['username'],
-        ]);
+        return new Response("Welcome to dashboard! (Protected Area) ");
     }
 }

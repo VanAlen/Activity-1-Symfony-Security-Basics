@@ -1,24 +1,53 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div style="text-align: center;">
-<div class="panel" >
-    <h1>Log In</h1>
+<!-- 🌟 Full Interactive Gem Background -->
+<canvas id="gemBackground" class="fixed inset-0 w-full h-full -z-10"></canvas>
 
+<!-- 🌕 Soft overlay for warmth -->
+<div class="min-h-screen flex items-center justify-center"
+   >
 
+  <!-- 🧊 Login Card -->
+  <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-sm backdrop-blur-sm">
+    <h1 class="text-2xl font-bold text-center mb-6 text-forest" style="color:#014421;">
+      Log In
+    </h1>
 
-    <form method="post" action="{{ path('home') }}">
-        <label>Username:</label><br>
-        <input type="text" name="username"><br>
+    {% if error %}
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+      </div>
+    {% endif %}
 
-        <label>Password:</label><br>
-        <input type="password" name="password"><br>
+    <form method="post" action="{{ path('login') }}" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium" style="color:#014421;">Username:</label>
+<input type="text" name="_username" value="{{ last_username }}"
+       class="text-forest mt-1 block w-full rounded-md border border-[#014421] shadow-sm px-3 py-2 focus:ring-2 focus:ring-[#014421]/50"
+       required/>
 
-        <input type="submit" name = "login" value="Log In"">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium" style="color:#014421;">Password:</label>
+<input type="password" name="_password"
+       class="text-forest mt-1 block w-full rounded-md border border-[#014421] shadow-sm px-3 py-2 focus:ring-2 focus:ring-[#014421]/50"
+       required/>
+
+      </div>
+
+      <button type="submit"
+              class="w-full py-2 px-4 rounded-md font-semibold shadow-md hover:shadow-lg transition"
+              style="background-color:#014421; color:#FAF3A0;">
+        Log In
+      </button>
     </form>
 
-    <p style="margin-top:10px">
-        Don’t have an account? <a href="{{ path('register') }}">Register</a>
+    <p class="text-center text-sm mt-4" style="color:#014421;">
+      Don’t have an account?
+      <a href="{{ path('register') }}" style="color:#014421; font-weight:bold;">Register</a>
     </p>
+  </div>
 </div>
 {% endblock %}

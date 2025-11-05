@@ -1,0 +1,132 @@
+  {% extends 'base.html.twig' %}
+
+  {% block body %}
+
+    <div class="min-h-screen flex flex-col py-20">
+      <!-- 🌟 Hero Section -->
+      <section class="flex flex-col md:flex-row items-center justify-between px-8 md:px-16">
+        <!-- Left: Search Form -->
+        <div class="md:w-1/2 mb-12 md:mb-0 text-center md:text-left order-1 md:order-1">
+          <h1 class="text-4xl font-cactus text-forest mb-6">Find Your Perfect Jewelry</h1>
+
+          {{ form_start(form, { method: 'GET', action: path('search_gems') }) }}
+          <div class="w-full max-w-sm min-h-[350px] ml-[-1rem] bg-[#FAF3E0] rounded-lg p-8 border border-[#FAF3E0]">
+            <!-- Jewelry Type -->
+            <div>
+              {{ form_label(form.jewelrytype, 'Jewelry Type', { label_attr: { class: 'block text-sm font-semibold text-[#014421] mb-2' } }) }}
+              {{ form_widget(form.jewelrytype, { attr: { class: 'custom-dropdown w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#014421]' } }) }}
+            </div>
+
+            <!-- Gem Type -->
+            <div>
+              {{ form_label(form.gemtype, 'Gem Type', { label_attr: { class: 'block text-sm font-semibold text-[#014421] mb-2' } }) }}
+              {{ form_widget(form.gemtype, { attr: { class: 'custom-dropdown w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#014421]' } }) }}
+            </div>
+
+            <!-- Price Range -->
+            <div>
+              <label for="price" class="block text-sm font-semibold text-[#014421] mb-2">Price Range</label>
+              <select id="price" name="price" class="custom-dropdown w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#014421]">
+                <option value="">Select range</option>
+                <option value="under-100">Under $100</option>
+                <option value="100-500">$100–$500</option>
+                <option value="500-1000">$500–$1000</option>
+                <option value="above-1000">Above $1000</option>
+              </select>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center pt-4">
+              <button type="submit"
+                class="submitfindgems px-8 py-4 font-semibold rounded-md shadow-lg hover:scale-105 transition-transform"
+                style="background-color:#FAF3E0; color:#014421;">
+                Search Gems
+              </button>
+            </div>
+          </div>
+        {{ form_end(form) }}
+
+
+        
+              </div> <!-- closes the search form container -->
+              
+        <!-- Right: Hero Image -->
+        <div class="md:w-1/2 flex justify-center order-2 md:order-2">
+          <img src="{{ asset('images/gem_backgroundfront.webp') }}" alt="Gems and Jewelry" class="w-full max-w-lg">
+        </div>
+      </section>
+
+            </section> <!-- closes the hero section -->
+
+
+
+
+
+
+      <!-- 💠 Gem Row -->
+      <section class="py-16 px-8 bg-[#E6E8D3]/40">
+        <h2 class="text-3xl font-semibold text-center text-forest mb-10">Featured Gems</h2>
+
+        {% if gems is defined and gems is not empty %}
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
+            {% for gem in gems %}
+              <a href="{{ path('app_product_show', { id: gem.id }) }}" class="block text-center hover:scale-105 transition">
+                  <img src="{{ asset(gem.imagepath ? 'images/gems/' ~ gem.imagepath : 'images/default-gem.webp') }}"
+
+                    alt="{{ gem.cut ~ ' ' ~ gem.color ~ ' (' ~ gem.carat ~ 'ct)' }}"
+                    class="w-full h-40 object-cover rounded-md shadow">
+                <span class="mt-2 block text-forest font-medium" title="{{ gem.description }}">
+                  {{ gem.cut ~ ' ' ~ gem.color ~ ' (' ~ gem.carat ~ 'ct)' }}
+                </span>
+              </a>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+      </section>
+
+
+      <!-- 💍 Jewelry Row -->
+    <section class="py-16 px-8 bg-[#C8D8B8]/40">
+      <h2 class="text-3xl font-semibold text-center text-forest mb-10">Elegant Jewelries</h2>
+
+      {% if jewelries is defined and jewelries is not empty %}
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
+          {% for jewelry in jewelries %}
+            <a href="{{ path('app_jewelries_show', { id: jewelry.id }) }}" class="block text-center hover:scale-105 transition">
+              <img src="{{ asset(jewelry.image ? 'images/jewelries/' ~ jewelry.image : 'images/default-jewelry.webp') }}"
+                  alt="{{ jewelry.name }}"
+                  class="w-full h-40 object-cover rounded-md shadow">
+              <span class="mt-2 block text-forest font-medium" title="{{ jewelry.name }}">
+                {{ jewelry.name }}
+              </span>
+            </a>
+          {% endfor %}
+        </div>
+    {% endif %}
+
+    </section>
+
+
+
+
+      <!-- 📜 About Section -->
+      <section id="about" class="py-24 px-8 text-center bg-[#FAF3E0]/30">
+        <h2 class="text-4xl font-bold mb-6 text-[#014421]">About Gemz Crystalline Shipping</h2>
+        <p class="max-w-3xl mx-auto text-[#014421] text-lg md:text-xl leading-relaxed">
+          Gemz Crystalline Shipping combines tradition and innovation — bringing timeless gemstones to your hands
+          with modern online ordering convenience. Our team crafts each piece with care and precision.
+        </p>
+          </section>
+    </div>
+
+    {% for message in app.flashes('error') %}
+  <div id="flash-error"
+       class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 bg-white border border-red-500 text-red-600 px-5 py-3 rounded-md shadow-md"
+       role="alert">
+    <span class="text-sm font-medium">{{ message }}</span>
+  </div>
+{% endfor %}
+
+
+  {% endblock %}

@@ -1,37 +1,40 @@
 <?php
-
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class IndexController extends AbstractController
 {
-    #[Route('/', name: 'home')]
-    public function login(Request $request, SessionInterface $session): Response
+    #[Route('/login', name: 'login')]
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        $error = null; // variable for error message
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
 
-        if ($request->isMethod('POST')) {
-            $username = $request->request->get('username');
-            $password = $request->request->get('password');
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
-            $user = $session->get('user');
-
-            if ($user && $user['username'] === $username && $user['password'] === $password) {
-                // Login successful -> redirect to dashboard
-                return $this->redirectToRoute('dashboard');
-            } else {
-                // Set error message (only one per attempt)
-                $error = 'Invalid username or password!';
-            }
-        }
-
-        return $this->render('home/index.html.twig', [
+      return $this->render('home/index.html.twig', [
+            'last_username' => $lastUsername,
             'error' => $error,
+        ]);
+    }
+
+    #[Route('/logout', name: 'logout')]
+    public function logout(): void
+    {
+        // This will be intercepted by Symfony's firewall
+        throw new \Exception('Don’t forget to activate logout in security.yaml');
+    }
+
+    #[Route('/dashboard', name: 'dashboard')]
+    public function dashboard(): Response
+    {
+        return $this->render('dashboard/index.html.twig', [
+            'user' => $this->getUser(),
         ]);
     }
 }
