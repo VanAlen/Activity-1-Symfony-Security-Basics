@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product List{% endblock %}
+
+{% block body %}
+<div class="min-h-screen flex flex-col py-10">
+    <div class="container mx-auto px-4  flex-1">
+
+        <div class="relative overflow-x-auto  sm:rounded-lg">
+            <table class="w-full text-sm text-left border">
+                <thead class="text-xs text-biege uppercase bg-emerald-500">
+                    <tr>
+                        <th class="px-6 py-3">ID</th>
+                        <th class="px-6 py-3">Gem Type</th>
+                        <th class="px-6 py-3">Carat</th>
+                        <th class="px-6 py-3">Size</th>
+                        <th class="px-6 py-3">Cut</th>
+                        <th class="px-6 py-3">Color</th>
+                        <th class="px-6 py-3">Clarity</th>
+                        <th class="px-6 py-3">Origin</th>
+                        <th class="px-6 py-3">Description</th>
+                        <th class="px-6 py-3">Stock</th>
+                        <th class="px-6 py-3">Price</th>
+                        <th class="px-6 py-3 text-right">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for product in products %}
+                        <tr class="bg-white border-b hover:bg-gray-50 break-words text-forest">
+                            <td class="px-6 py-4">{{ product.id }}</td>
+                            <td class="px-6 py-4">{{ product.gemtype }}</td>
+                            <td class="px-6 py-4">{{ product.carat }}</td>
+                            <td class="px-6 py-4">{{ product.size }}</td>
+                            <td class="px-6 py-4">{{ product.cut }}</td>
+                            <td class="px-6 py-4">{{ product.color }}</td>
+                            <td class="px-6 py-4">{{ product.clarity }}</td>
+                            <td class="px-6 py-4">{{ product.origin }}</td>
+                            <td class="px-6 py-4">{{ product.description }}</td>
+                            <td class="px-6 py-4">{{ product.stock }}</td>
+                            <td class="px-6 py-4">{{ product.price }}</td>
+                            <td class="px-6 py-4 text-right space-x-2">
+                                <a href="{{ path('app_product_show', {'id': product.id}) }}" class="text-blue-600 hover:underline">Show</a>
+                                <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="text-green-600 hover:underline">Edit</a>
+                                <form method="post" action="{{ path('app_product_delete', {'id': product.id}) }}" style="display:inline" onsubmit="return confirm('Are you sure?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                                    <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="12" class="px-6 py-4 text-center">No products found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+     <div class="mt-6">
+        <a href="{{ path('app_product_new') }}"
+            class="flex items-center px-4 py-2  text-black rounded ">
+            <img src="{{ asset('images/icon/add.ico') }}"
+                alt="Create Icon"
+                class="w-5 h-5 mr-2">
+            Add New Gem
+        </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

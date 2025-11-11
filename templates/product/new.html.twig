@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create New Product{% endblock %}
+
+{% block body %}
+<div class="min-h-screen flex flex-col">
+  <div class="container mx-auto px-4 py-10 flex-1">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Create New Gem</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+      {% for label, messages in app.flashes %}
+        {% for message in messages %}
+          <div class="mb-4 px-4 py-2 rounded text-forest {{ label == 'success' ? 'bg-green-500' : 'bg-red-500' }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endfor %}
+
+      {{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data' } }) }}
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-forest">
+        {{ form_row(form.gemtype) }}
+        {{ form_row(form.carat) }}
+        {{ form_row(form.size) }}
+        {{ form_row(form.cut) }}
+        {{ form_row(form.color) }}
+        {{ form_row(form.clarity) }}
+        {{ form_row(form.origin) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.stock) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.imagepath, {
+          'attr': {
+            'class': 'border rounded p-2 w-full',
+            'placeholder': 'e.g. emerald.png'
+          }
+        }) }}
+      </div>
+
+      <div class="mt-6 flex space-x-3">
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Create</button>
+        <a href="{{ path('app_product_index') }}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Back to list</a>
+      </div>
+
+      {{ form_end(form) }}
+    </div>
+  </div>
+</div>
+{% endblock %}

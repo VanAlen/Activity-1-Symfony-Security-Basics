@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard!{% endblock %}
+
+{% block body %}
+<div class="max-w-xl mx-auto mt-10 p-6 shadow rounded text-forest" style="background-color: #82a19133;">
+
+
+{% if is_granted('ROLE_ADMIN') %}
+  <p>You are logged in as Admin. </p>
+{% elseif is_granted('ROLE_USER') %}
+  <p>You are logged in as  User. </p>
+{% else %}
+  <p>You are not authorized.</p>
+{% endif %}
+</div>
+{% endblock %}

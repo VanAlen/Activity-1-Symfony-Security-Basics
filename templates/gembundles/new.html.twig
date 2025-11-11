@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create New Gem Bundle{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-50 py-20">
+  <div class="container mx-auto px-4">
+    <h1 class="text-3xl font-bold mb-8 text-gray-800 text-center">Create New Gem Bundle</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+      {{ form_start(form, { 'attr': { 'enctype': 'multipart/form-data' } }) }}
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-forest">
+        {{ form_row(form.name) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.stock) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.image) }}
+        {{ form_row(form.created_at) }}
+      </div>
+
+      <div class="mt-6 flex space-x-4 justify-end">
+        <button type="submit" class="px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700">Create</button>
+        <a href="{{ path('app_gembundles_index') }}" class="px-5 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Back to list</a>
+      </div>
+
+      {{ form_end(form) }}
+    </div>
+  </div>
+</div>
+{% endblock %}

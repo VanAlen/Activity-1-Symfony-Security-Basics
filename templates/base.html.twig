@@ -1,0 +1,354 @@
+{# templates/base.html.twig #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="{{ asset('images/icon/crystal1.ico') }}" type="image/x-icon">
+
+  <title>{% block title %}Welcome!{% endblock %}</title>
+
+  {# Preload assets #}
+  <link rel="preload" href="/images/v745-kul-39.webp" as="image">
+  <link rel="preload" 
+        href="/build/fonts/cactus-classical-serif-v13-latin-regular.woff2" 
+        as="font" 
+        type="font/woff2" 
+        crossorigin>
+  <link rel="preload" 
+      href="/build/fonts/jacques-francois-shadow-v9-latin-regular.woff2" 
+      as="font" 
+      type="font/woff2" 
+      crossorigin>
+
+
+  <style>
+      @font-face {
+        font-family: 'Cactus Classical';
+        src: url('/build/fonts/cactus-classical-serif-v13-latin-regular.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'Jacques Francois Shadow';
+        src: url('/build/fonts/jacques-francois-shadow-v9-latin-regular.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+    
+
+    body {
+      font-family: 'Cactus Classical', serif, system-ui;
+      
+      margin: 0;
+    }
+
+    h2, h3, h4, h5, h6, p, a, span, button, input, textarea {
+      font-family: 'Cactus Classical', serif !important;
+    }
+    //h1{
+    //font-family: 'Jacques Francois Shadow', serif !important;
+    //}
+
+
+    a { color: #014421; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .nav-main a { color: #F5F5DC !important; }
+    .nav-main a:hover { text-decoration: scale; }
+    
+  </style>
+
+  {% block stylesheets %}
+      {{ encore_entry_link_tags('app') }}
+  {% endblock %}
+</head>
+
+<body class="flex flex-col min-h-screen" style="
+  background: linear-gradient(
+    to bottom,
+    #FAF3E0 0%,
+    #F0F2DA 10%,
+    #E6E8D3 15%,
+    #C8D8B8 25%,
+ 
+ 
+  );
+  color: #FAF3E0;
+  font-family: 'Cactus Classical', serif, system-ui;
+  margin: 0;
+">
+
+
+
+<div class="flex flex-1 overflow-hidden">
+
+  <!-- Sidebar  -->
+  <aside class="w-64 flex-shrink-0 px-8 py-4 text-cream" style="background-color: #014421;">
+
+    <a href="{{ path('app_landing') }}">
+      <img src="{{ asset('images/gemtitle-w.webp') }}" 
+           alt="Gemz Crystalline Shipping Logo" 
+           style="width: 150px; height: auto; margin-bottom: 30px;">
+    </a>
+    <nav class="space-y-6">
+      <a href="{{ path('app_product_index') }}" class="hover:underline flex items-center space-x-1 text-lg">
+        <img src="{{ asset('images/icon/gem1.ico') }}" alt="Gem Icon" class="w-6 h-6">
+        <span class="text-cream">Gems</span>
+      </a>
+      <a href="{{ path('app_jewelries_index') }}" class="hover:underline flex items-center space-x-1 text-lg">
+        <img src="{{ asset('images/icon/jewelry (1).ico') }}" alt="Jewelry Icon" class="w-6 h-6">
+        <span class="text-cream">Jewelries</span>
+      </a>
+      <a href="{{ path('app_gembundles_index') }}" class="hover:underline flex items-center space-x-1 text-lg">
+        <img src="{{ asset('images/icon/bundle.ico') }}" alt="Bundle Icon" class="w-6 h-6">
+        <span class="text-cream">Bundles</span>
+      </a>
+      <a href="{{ path('app_customjewelries_index') }}" class="flex items-center space-x-1 text-lg">
+        <img src="{{ asset('images/icon/custom1.ico') }}" alt="Custom Jewelry Icon" class="w-6 h-6">
+        <span class="text-cream">Custom Jewelries</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 flex flex-col overflow-hidden">
+    <!-- Top Bar (First Navbar) -->
+    <div class="nav-main flex justify-between items-center px-8 py-2" style="background-color:#014421; color:#F5F5DC;">
+      <img src="{{ asset('images/gemtitle1 (1).webp') }}" alt="G" style="width: 1%; height: auto;">
+      <nav class="space-x-6 flex items-center text-[#F5F5DC]">
+        <a href="{{ path('app_admin_index') }}" class="hover:underline">Admin</a>
+        {% if app.user %}
+          <form action="{{ path('logout') }}" method="post" class="inline">
+            <button type="submit" class="text-white px-3 py-1 rounded-md shadow transition">Logout</button>
+          </form>
+          <span class="font-semibold">{{ app.user.userIdentifier }}</span>
+        {% else %}
+          <a href="{{ path('login') }}" class="hover:underline">Account</a>
+        {% endif %}
+      </nav>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="flex-1 overflow-y-auto p-6">
+      {% block body %}
+            <div class="container mx-auto px-4 mt-4">
+                {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                <div class="mb-4 p-3 rounded 
+                {% if label == 'success' %} bg-green-100 text-green-800 
+                {% elseif label == 'error' %} bg-red-100 text-red-800 
+                {% elseif label == 'warning' %} bg-yellow-100 text-yellow-800 
+                {% else %} bg-gray-100 text-gray-800 
+                {% endif %}">
+                {{ message }}
+              </div>
+            {% endfor %}
+         {% endfor %}
+       </div>
+      {% endblock %}
+    </div>
+
+    <!-- Sticky Footer -->
+    <footer class="bg-transparent text-forest py-3 ">
+      <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <p class="text-sm font-semibold">&copy; {{ "now"|date("Y") }} Gemz Crystalline Shipping. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+</div>
+
+
+
+  <canvas id="gemBackground" class="fixed inset-0 w-full h-full -z-10"></canvas>
+
+
+
+
+<style>
+/* Your custom footer colors */
+.bg-emerald-800 { background-color: #014421; }
+.text-cream { color: #FAF3A0; }
+
+/* Optional: hover effect for links */
+footer a:hover { color: #FFF3B0; }
+
+/* Shadow inside footer for depth */
+.shadow-inner { box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+</style>
+
+
+
+
+
+
+  {% block extra_scripts %}
+<script>
+  // Swap blurred background with full WebP
+  //const fullBg = new Image();
+  //fullBg.src = '/images/v745-kul-39.webp';
+  //fullBg.onload = () => {
+  //  document.body.style.backgroundImage = `url('${fullBg.src}')`;
+  //};
+
+  // Gem animation
+  function startGemAnimation() {
+    const canvas = document.getElementById('gemBackground');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let gems = [];
+    const MAX_GEMS = 20;
+    const sparkleFactor = 1.2; // Adjust sparkle intensity
+
+    function resizeCanvas() {
+      const oldWidth = canvas.width;
+      const oldHeight = canvas.height;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const scaleX = canvas.width / oldWidth || 1;
+      const scaleY = canvas.height / oldHeight || 1;
+      gems.forEach(g => { g.x *= scaleX; g.y *= scaleY; });
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    
+    function createGems() {
+      if (gems.length > 0) return;
+      const gemTypes = ['diamond', 'emerald', 'hex', 'crystal', 'round'];
+      const gemColors = {
+        diamond: '#E0FFFF', // light icy blue
+        emerald: '#00FF7F', // green
+        hex: '#1E90FF',     // sapphire blue
+        crystal: '#BA55D3', // amethyst purple
+        round: '#FFD700'    // gold
+      };
+
+      for (let i = 0; i < MAX_GEMS; i++) {
+        const type = gemTypes[Math.floor(Math.random() * gemTypes.length)];
+        const size = 8 + Math.random() * 20;
+
+        gems.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size,
+          type,
+          color: gemColors[type], // assign based on gem type
+          speedX: (Math.random() - 0.5) * 0.3,
+          speedY: (Math.random() - 0.5) * 0.3,
+          sparkle: Math.random() * Math.PI * 2,
+          alpha: 0,
+          fadeSpeed: 0.002 + Math.random() * 0.008,
+          fadingIn: true,
+          maxAlpha: 0.3 + Math.random() * 0.5
+        });
+      }
+    }
+
+
+    function drawGem(g, alphaOverride) {
+      const { x, y, size, type, color } = g;
+      const alpha = alphaOverride !== undefined ? alphaOverride : 0.5;
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(x, y);
+      ctx.rotate(Math.sin(g.sparkle * 0.2) * 0.3);
+
+      // Create a soft gradient (from gem color → white)
+      const grad = ctx.createLinearGradient(-size, -size, size, size);
+      grad.addColorStop(0, color);
+      grad.addColorStop(1, '#ffffff');
+      ctx.fillStyle = grad;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+
+      ctx.beginPath();
+      switch (type) {
+        case 'diamond':
+          ctx.moveTo(0, -size);
+          ctx.lineTo(size * 0.8, 0);
+          ctx.lineTo(0, size);
+          ctx.lineTo(-size * 0.8, 0);
+          break;
+        case 'emerald':
+          ctx.moveTo(-size * 0.6, -size * 0.9);
+          ctx.lineTo(size * 0.6, -size * 0.9);
+          ctx.lineTo(size * 0.9, size * 0.2);
+          ctx.lineTo(0, size);
+          ctx.lineTo(-size * 0.9, size * 0.2);
+          break;
+        case 'hex':
+          for (let i = 0; i < 6; i++) {
+            const angle = (Math.PI / 3) * i;
+            const px = Math.cos(angle) * size;
+            const py = Math.sin(angle) * size;
+            i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+          }
+          break;
+        case 'crystal':
+          ctx.moveTo(0, -size);
+          ctx.lineTo(size * 0.6, -size * 0.3);
+          ctx.lineTo(size * 0.9, size * 0.6);
+          ctx.lineTo(0, size);
+          ctx.lineTo(-size * 0.9, size * 0.6);
+          ctx.lineTo(-size * 0.6, -size * 0.3);
+          break;
+        default:
+          ctx.arc(0, 0, size * 0.8, 0, Math.PI * 2);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    }
+
+
+    function animate() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      for (const g of gems) {
+        g.x += g.speedX;
+        g.y += g.speedY;
+        g.sparkle += 0.03;
+
+        if (g.x < -50) g.x = canvas.width + 50;
+        if (g.x > canvas.width + 50) g.x = -50;
+        if (g.y < -50) g.y = canvas.height + 50;
+        if (g.y > canvas.height + 50) g.y = -50;
+
+        if (g.fadingIn) {
+          g.alpha += g.fadeSpeed;
+          if (g.alpha >= g.maxAlpha) g.fadingIn = false;
+        } else {
+          g.alpha -= g.fadeSpeed;
+          if (g.alpha <= 0) {
+            g.alpha = 0;
+            g.fadingIn = true;
+            g.x = Math.random() * canvas.width;
+            g.y = Math.random() * canvas.height;
+          }
+        }
+
+        const displayAlpha = Math.sin((g.alpha / g.maxAlpha) * (Math.PI / 2)) * g.maxAlpha * sparkleFactor;
+        drawGem(g, displayAlpha);
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    resizeCanvas();
+    createGems();
+    animate();
+  }
+
+  startGemAnimation();
+</script>
+{% endblock %}
+</body>
+</html>
