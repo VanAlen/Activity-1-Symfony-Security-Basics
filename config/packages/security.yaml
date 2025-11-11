@@ -3,33 +3,38 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
     providers:
-        in_memory:
+        in_memory_users:
             memory:
                 users:
                     admin:
-                        password: '$2y$13$r0hzilnkxmY3X5wZumYVK.WWQrBv4sAHn4.gZ0p48wbg3.5aTe8eC'
+                        password: '$2y$13$2kICdmHelg8VEgv5XDE4M.OTA5DiER.TGInPMkqvRHoNxgv3j9COW' # bcrypt hash of "password"
                         roles: ['ROLE_ADMIN']
                     user:
-                        password: '$2y$13$vFUdgKSrxbDi7fEpWH9wbeycUA7xYrh9AfRdkgRQXHMVuaqZQOXtW'
+                        password: '$2y$13$vFUdgKSrxbDi7fEpWH9wbeycUA7xYrh9AfRdkgRQXHMVuaqZQOXtW' # bcrypt hash of "password"
                         roles: ['ROLE_USER']
 
     firewalls:
         main:
-            pattern: ^/
+            lazy: true
+            provider: in_memory_users
             http_basic: ~
-            provider: in_memory
+            logout:
+                path: /logout
+                target: /
 
     access_control:
         - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
 
 
-
-
 when@test:
     security:
         password_hashers:
+            # By default, password hashers are resource intensive and take time. This is
+            # important to generate secure password hashes. In tests however, secure hashes
+            # are not important, waste resources and increase test times. The following
+            # reduces the work factor to the lowest possible values.
             Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
                 algorithm: auto
-                cost: 4
-                time_cost: 3
-                memory_cost: 10
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon

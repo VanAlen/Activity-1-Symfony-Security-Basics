@@ -122,12 +122,12 @@
       <nav class="space-x-6 flex items-center text-[#F5F5DC]">
         <a href="{{ path('app_admin_index') }}" class="hover:underline">Admin</a>
         {% if app.user %}
-          <form action="{{ path('logout') }}" method="post" class="inline">
-            <button type="submit" class="text-white px-3 py-1 rounded-md shadow transition">Logout</button>
-          </form>
-          <span class="font-semibold">{{ app.user.userIdentifier }}</span>
+            <form action="{{ path('logout') }}" method="post" class="inline">
+                <button type="submit" class="text-white px-3 py-1 rounded-md shadow transition">Logout</button>
+            </form>
+            <span class="font-semibold">{{ app.user.userIdentifier }}</span>
         {% else %}
-          <a href="{{ path('login') }}" class="hover:underline">Account</a>
+            <a href="{{ path('login') }}" class="hover:underline">Account</a>
         {% endif %}
       </nav>
     </div>
